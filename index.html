@@ -7,6 +7,9 @@
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#F5F8FE">
   <title>Mon programme d’exercices · SAM</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-ifec-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-ifec-192.png">
+  <link rel="apple-touch-icon" href="apple-touch-ifec.png">
   <!--
     SAM Clinique — page relais patients.
     Sur Android, l'appli Google Drive intercepte les adresses script.google.com et affiche
@@ -53,9 +56,17 @@
   (function () {
     'use strict';
     // Adresse /exec du déploiement « Patients » (Paramètres › url_patients).
+    // ===== Réglages de cette page relais =====
+    // Adresse /exec du déploiement « Patients » (Paramètres › url_patients).
     var API = 'https://script.google.com/macros/s/AKfycbxZpxo2eDqFmeWxJsBQdoqOtGNQ7WPF2rWUrhf-T48JfcO57EOwm0hBRVqmE7iB2g_Q/exec';
+    // Icônes de l'onglet (fichiers placés à côté de cette page)
+    var ICONES = { petite: 'favicon-ifec-32.png', grande: 'favicon-ifec-192.png', apple: 'apple-touch-ifec.png' };
+    // =========================================
     var VIEWPORT = '<meta name="viewport" content="width=device-width, initial-scale=1">'
       + '<meta name="referrer" content="no-referrer"><title>Mon programme d’exercices · SAM</title>'
+      + '<link rel="icon" type="image/png" sizes="32x32" href="' + ICONES.petite + '">'
+      + '<link rel="icon" type="image/png" sizes="192x192" href="' + ICONES.grande + '">'
+      + '<link rel="apple-touch-icon" href="' + ICONES.apple + '">'
       // Autre lien collé dans le même onglet : on recharge pour afficher l'autre programme.
       + '<script>window.addEventListener("hashchange", function () { location.reload(); });<\/script>';
 
@@ -73,6 +84,10 @@
       return;
     }
     var jeton = m[1];
+    if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]{10,}\/exec$/.test(API)) {
+      erreur('Page en cours d’installation', 'L’adresse du programme n’est pas encore réglée. Prévenez votre praticien.', false);
+      return;
+    }
 
     window.addEventListener('hashchange', function () { location.reload(); });
 
